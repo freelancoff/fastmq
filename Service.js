@@ -62,13 +62,6 @@ class Service  {
         })
     }
    async _addServiceToMemcached() {
-       const serviceExists = await this._memcachedClient.exists(this._serviceName)
-       if (serviceExists) {
-           const existsServicePort = await this._memcachedClient.get(this._serviceName)
-           if (this._port != existsServicePort) {
-                throw new Error(`The service ${this._serviceName} exists on port ${this._port}`)
-           }
-       }
        const setResult = await this._memcachedClient.add(this._serviceName, this._port.toString(), 0)
        if (!setResult) {
             throw new Error(`Erorr to add service to memcached`)
